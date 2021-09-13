@@ -33,6 +33,8 @@ export default function App() {
     { id: 4, label: "Appeler maman", isDone: false },
   ]);
 
+  const [counter, setCounter] = useState(0);
+
   const toggleTodo = (item: Todo) => {
     const itemIndex = todos.findIndex((todo) => todo.id === item.id);
     if (itemIndex > -1) {
@@ -46,32 +48,41 @@ export default function App() {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1, alignItems: "flex-start" }}>
-        <Text style={styles.title}>Todo Liste non accessible</Text>
-        {todos.map((item) => (
-          <View key={item.id} style={{ flexDirection: "row" }}>
+      <Text style={styles.title}>Todo Liste non accessible</Text>
+      {todos.map((item) => (
+        <View key={item.id} style={{ flexDirection: "row" }}>
           <Checkbox isChecked={item.isDone} onPress={() => toggleTodo(item)} />
-            <Text style={{ marginLeft: 12 }}>{item.label}</Text>
-          </View>
-        ))}
+          <Text style={{ marginLeft: 12 }}>{item.label}</Text>
+        </View>
+      ))}
 
-        <Text style={styles.title}>Todo Liste accessible</Text>
-        {todos.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            style={{ flexDirection: "row", alignItems: "center" }}
-            accessibilityLabel={item.label}
-            accessibilityHint={"Appuyer pour marquer comme fait"}
-            accessibilityState={{ checked: item.isDone }}
-            onPress={() => toggleTodo(item)}
-          >
+      <Text style={styles.title}>Todo Liste accessible</Text>
+      {todos.map((item) => (
+        <TouchableOpacity
+          key={item.id}
+          style={{ flexDirection: "row", alignItems: "center" }}
+          accessibilityLabel={item.label}
+          accessibilityHint={"Appuyer pour marquer comme fait"}
+          accessibilityState={{ checked: item.isDone }}
+          onPress={() => toggleTodo(item)}
+        >
           <CheckboxA11y isChecked={item.isDone} disabled />
-            <Text style={{ marginLeft: 12, fontSize: 18 }}>{item.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <StatusBar style="auto" />
+          <Text style={{ marginLeft: 12, fontSize: 18 }}>{item.label}</Text>
+        </TouchableOpacity>
+      ))}
+      <Button
+        title="Increment counter"
+        onPress={() => {
+          setCounter((c) => c + 1);
+        }}
+      />
+      <Text
+        style={{ fontSize: 25, color: "chocolate" }}
+      >{`Compteur non accessible: ${counter}`}</Text>
+      <Text
+        accessibilityLiveRegion="polite" // only for Android
+        style={{ fontSize: 25, color: "coral" }}
+      >{`Compteur accessible: ${counter}`}</Text>
     </SafeAreaView>
   );
 }
@@ -80,8 +91,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    margin: 24,
   },
   title: {
     fontSize: 24,
