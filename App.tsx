@@ -1,7 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import {
-  Alert,
   Button,
   SafeAreaView,
   StyleSheet,
@@ -11,13 +9,7 @@ import {
 } from "react-native";
 import { CheckboxA11y } from "./src/components/a11y/Chekbox";
 import { Checkbox } from "./src/components/Chekbox";
-
-const todoList = [
-  "Faire les courses",
-  "Prendre les billets d'avions",
-  "Regarder la keynote",
-  "Appeler maman",
-];
+import Slider from "@react-native-community/slider";
 
 type Todo = {
   id: number;
@@ -34,6 +26,7 @@ export default function App() {
   ]);
 
   const [counter, setCounter] = useState(0);
+  const [sliderValue, setSliderValue] = useState(0);
 
   const toggleTodo = (item: Todo) => {
     const itemIndex = todos.findIndex((todo) => todo.id === item.id);
@@ -70,6 +63,9 @@ export default function App() {
           <Text style={{ marginLeft: 12, fontSize: 18 }}>{item.label}</Text>
         </TouchableOpacity>
       ))}
+
+      <Text style={styles.title}>Le compteur invisible</Text>
+
       <Button
         title="Increment counter"
         onPress={() => {
@@ -83,6 +79,18 @@ export default function App() {
         accessibilityLiveRegion="polite" // only for Android
         style={{ fontSize: 25, color: "coral" }}
       >{`Compteur accessible: ${counter}`}</Text>
+
+      <Text style={styles.title}>Le slider</Text>
+
+      <Slider
+        style={{ width: 200, height: 40 }}
+        minimumValue={0}
+        maximumValue={10}
+        minimumTrackTintColor="red"
+        accessibilityValue={{ min: 0, max: 10, now: sliderValue }}
+        onValueChange={setSliderValue}
+        maximumTrackTintColor="#000000"
+      />
     </SafeAreaView>
   );
 }
