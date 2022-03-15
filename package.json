@@ -1,5 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "name": "a11y",
+  "license": "MIT",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -26,5 +28,5 @@
     "@types/react-native": "~0.63.2",
     "typescript": "~4.0.0"
   },
-  "private": true
+  "version": "1.0.0"
 }
