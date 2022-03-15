@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { CheckboxA11y } from "../components/a11y/Chekbox";
 import Slider from "@react-native-community/slider";
+import { useAtom } from "jotai";
+import { isScreenVisibleAtom } from "../entities";
 
 type Todo = {
   id: number;
@@ -17,6 +19,8 @@ type Todo = {
 };
 
 export function AccessibleScreen() {
+  const [isVisible] = useAtom(isScreenVisibleAtom);
+
   const [todos, setTodos] = useState<Todo[]>([
     { id: 1, label: "Faire les courses", isDone: false },
     { id: 2, label: "Prendre les billets d'avions", isDone: false },
@@ -39,7 +43,12 @@ export function AccessibleScreen() {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        { backgroundColor: isVisible ? "#fff" : "#000" },
+      ]}
+    >
       <ScrollView>
         <Text style={styles.title}>Todo Liste accessible</Text>
         {todos.map((item) => (

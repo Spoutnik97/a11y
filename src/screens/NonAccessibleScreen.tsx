@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { Checkbox } from "../components/Chekbox";
 import Slider from "@react-native-community/slider";
+import { useAtom } from "jotai";
+import { isScreenVisibleAtom } from "../entities";
 
 type Todo = {
   id: number;
@@ -17,6 +19,8 @@ type Todo = {
 };
 
 export function NonAccessibleScreen() {
+  const [isVisible] = useAtom(isScreenVisibleAtom);
+
   const [todos, setTodos] = useState<Todo[]>([
     { id: 1, label: "Faire les courses", isDone: false },
     { id: 2, label: "Prendre les billets d'avions", isDone: false },
@@ -39,7 +43,12 @@ export function NonAccessibleScreen() {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        { backgroundColor: isVisible ? "#fff" : "#000" },
+      ]}
+    >
       <Text style={styles.title}>Todo Liste non accessible</Text>
       {todos.map((item) => (
         <View key={item.id} style={{ flexDirection: "row" }}>
@@ -59,7 +68,7 @@ export function NonAccessibleScreen() {
       </TouchableOpacity>
 
       <Text
-        style={{ fontSize: 25, color: "chocolate" }}
+        style={styles.counterValue}
       >{`Compteur non accessible: ${counter}`}</Text>
 
       <Text style={styles.title}>Le slider</Text>
@@ -90,4 +99,5 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     marginTop: 48,
   },
+  counterValue: { fontSize: 25, color: "chocolate" },
 });
